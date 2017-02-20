@@ -1,0 +1,21 @@
+{
+  "name": "verarose",
+  "version": "1.0.0",
+  "devDependencies": {
+    "autoprefixer": "^6.7.0",
+    "bower": "^1.8.0",
+    "browser-sync": "^2.18.6",
+    "css-mqpacker": "^5.0.1",
+    "cssnano": "^3.10.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-newer": "^1.3.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.3.0",
+    "gulp-pug": "^3.2.0",
+    "gulp.spritesmith": "^6.3.0",
+    "postcss": "^5.2.11",
+    "precss": "^1.4.0"
+  }
+}
