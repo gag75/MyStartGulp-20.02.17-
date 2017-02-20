@@ -1,3 +1,3 @@
-(function($){
-    alert("Hello World");
-})(jQuery);
+ $(".owl-carousel").owlCarousel({
+     items:1
+ });

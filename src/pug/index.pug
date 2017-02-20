@@ -3,10 +3,37 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         title Document
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
         link(rel="stylesheet", href="styles/index.css")
         script(src="js/vendor.js")
     body
-        h1 New Project
-
+        .container.header
+            .row
+                .col-md-4.header__logo
+                    img(src="./img/design/logo.png")
+                .nav.col-md-8.header__wrap-contacts
+                    .col-md-offset-5.header__contacts +7 (4832) 123-456<br>info@mail.ru
+                    ul.nav__menu
+                        li.nav__item
+                            a(href="#").link.nav__link О нас
+                        li.nav__item
+                            a(href="#").link.nav__link Решения
+                        li.nav__item
+                            a(href="#").link.nav__link Продукция
+                        li.nav__item
+                            a(href="#").link.nav__link Услуги
+                        li.nav__item
+                            a(href="#").link.nav__link Фото/видео
+                        li.nav__item
+                            a(href="#").link.nav__link Контакты
+                        li.nav__item
+                            a(href="#").link.nav__link ВАЖНО!
+        .slider.owl-carousel
+            .slider__item
+                .slider__bg(style="background-image: url(./img/content/slides/slide1.jpg)")
+            .slider__item
+                .slider__bg(style="background-image: url(./img/content/slides/slide2.jpg)")
+            .slider__item
+                .slider__bg(style="background-image: url(./img/content/slides/slide3.jpg)")
 
         script(src="js/common.js")

@@ -1,0 +1,15 @@
+.sp-icons {
+  background-image: url(../sprites/icons.png);
+}
+
+
+.sp-icons__arrow-left {
+  background-position: 0px 0px;
+  width: 35px;
+  height: 9px;
+}
+.sp-icons__arrow-right {
+  background-position: 0px -9px;
+  width: 35px;
+  height: 9px;
+}

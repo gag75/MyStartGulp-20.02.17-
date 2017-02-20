@@ -1,3 +1,21 @@
+/* bower_coponents/css, vendor css*/
+@import '../../build/bower_components/normalize-css/normalize.css';
+@import '../../build/bower_components/owl.carousel/dist/assets/owl.carousel.min.css';
+
+/*Grid*/
+@import './CustomizeBootsrapGrid/grid.css';
+
+/*Fonts*/
+@font-face {
+    font-family: 'PFDinTextCondPro-Regular'; /* Имя шрифта */
+    src: url('../fonts/PFDinTextCondPro-Regular.ttf'); /* Путь к файлу со шрифтом */
+}
+
+/*Sprites*/
+@import './sprites/icons.css';
+
+
+/*Common*/
 *{
     box-sizing: border-box;
 }
@@ -10,13 +28,49 @@ html{
 body{
     font-size: 10px;
     height: 100%;
-    font-family: sans-serif;
+    font-family:PFDinTextCondPro-Regular,sans-serif;
 }
 
-/* bower_coponents/css, vendor css*/
-@import '../../bower_components/normalize-css/normalize.css';
-
-/*Grid, Fonts, Sprites ...*/
-@import './CustomizeBootsrapGrid/grid.css';
-
 /*Components*/
+@import './header/header';
+@import './nav/nav';
+
+.slider{
+    color:red;
+    position: relative;
+    min-height:380px;
+    height: 1px;
+    &__item{
+        position: relative;
+        height: 100%;
+    }
+    &__bg{
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #050d1f;
+    }
+    &__nav{
+
+    }
+    &__content{
+        text-align: center;
+        padding: 55px 0;
+    }
+    &__text{
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+}
+.owl-stage-outer{
+    height: 100%;
+}
+.owl-stage{
+    height: 100%;
+}
+.owl-item{
+    height: 100%;
+}

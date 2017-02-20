@@ -5,6 +5,7 @@ var gulp          = require("gulp");
 var clean         = require('gulp-clean');
 var concat        = require("gulp-concat");
 var newer         = require("gulp-newer");
+
 //
 
 //сервер
@@ -22,12 +23,16 @@ var pug           = require("gulp-pug");
 
 //стили
 var postcss       = require("gulp-postcss");//css стилии
+var url           = require("postcss-url");
 var autoprefixer  = require("autoprefixer");
 var precss        = require("precss");
 var cssnano       = require("cssnano");
 var mqpacker      = require("css-mqpacker");
 //
 
+//спрайты
+var spritesmith = require('gulp.spritesmith-multi');
+//
 
 //Пути
 // var _src    = './src/',
@@ -40,29 +45,34 @@ var mqpacker      = require("css-mqpacker");
 //     _html   = 'html/';
 var paths = {
     "styles": {
-        "src"   : "./src/precss/*.css",
-        "watch" : "./src/precss/**/*.css",
-        "build" : "./build/styles"
+        "src"   : "src/precss/*.css",
+        "watch" : "src/precss/**/*.css",
+        "build" : "build/styles"
     },
     "pug": {
-        "src"   : "./src/pug/*.pug",
-        "watch" : "./src/pug/**/*.pug",
-        "build" : "./build"
+        "src"   : "src/pug/*.pug",
+        "watch" : "src/pug/**/*.pug",
+        "build" : "build"
     },
     "scripts": {
-        "src"   : "./src/js/**/*.js",
-        "watch" : "./src/js/**/*.js",
-        "build" : "./build/js"
+        "src"   : "src/js/**/*.js",
+        "watch" : "src/js/**/*.js",
+        "build" : "build/js"
     },
     "images": {
-        "src"   : "./src/img/**/*.{jpg,png,svg}",
-        "watch" : "./src/img/**/*.{jpg,png,svg}",
-        "build" : "./build/img"
+        "src"   : "src/img/**/*.{jpg,png,svg}",
+        "watch" : "src/img/**/*.{jpg,png,svg}",
+        "build" : "build/img"
+    },
+    "sprites": {
+        "src"   : "src/sprites/**/*.{jpg,png,svg}",
+        "watch" : "src/sprites/**/*.{jpg,png,svg}",
+        "build" : "build/sprites"
     },
     "fonts": {
-        "src"  : "./src/fonts/**/*",
-        "watch" : "./src/fonts/**/*",
-        "build" : "./build/fonts"
+        "src"  : "src/fonts/**/*",
+        "watch" : "src/fonts/**/*",
+        "build" : "build/fonts"
     },
     "build" : "build"
 };
@@ -91,7 +101,8 @@ gulp.task("scripts", function() {
 
 gulp.task("scripts:vendor", function() {
   return gulp.src([
-        "./bower_components/jquery/dist/jquery.min.js"
+        "./build/bower_components/jquery/dist/jquery.min.js",
+        "./build/bower_components/owl.carousel/dist/owl.carousel.min.js"
     ])
         .pipe(plumber())
         .pipe(concat('vendor.js'))
@@ -111,22 +122,30 @@ gulp.task("pug", function () {
 gulp.task("images", function () {
     return gulp.src(paths.images.src)
         .pipe(plumber())
-        .pipe(newer(paths.images.src))
+        .pipe(newer(paths.images.build))
         .pipe(gulp.dest(paths.images.build))
         .pipe(reload({stream:true}));
 });
 
-gulp.task('sprites', function() {
-    var spriteData =
-        gulp.src('./src/sprites/*.*') // путь, откуда берем картинки для спрайта
-            .pipe(spritesmith({
-                imgName: 'sprite.png',
-                cssName: 'sprite.css',
-                padding: 4
-            }));
+gulp.task("sprites", function() {
+    var merge = require('merge-stream');
+    var spriteData = gulp.src(paths.sprites.src)
+        .pipe(spritesmith({
+            spritesmith: function (options) {
+                options.imgPath = '../sprites/' + options.imgName
+            }
+        }));
 
-    spriteData.img.pipe(gulp.dest('./built/images/')); // путь, куда сохраняем картинку
-    spriteData.css.pipe(gulp.dest('./built/styles/')); // путь, куда сохраняем стили
+    // Pipe image stream through image optimizer and onto disk
+    var imgStream = spriteData.img
+    .pipe(gulp.dest('./build/sprites'))
+
+    // Pipe CSS stream through CSS optimizer and onto disk
+    var cssStream = spriteData.css
+    .pipe(gulp.dest('./src/precss/sprites'))
+
+    // Return a merged stream to handle both `end` events
+    return merge(imgStream, cssStream);
 });
 
 gulp.task("fonts", function () {
@@ -140,7 +159,7 @@ gulp.task("fonts", function () {
 
 
 
-gulp.task('clean', function () {
+gulp.task("clean", function () {
     return gulp.src('build', {read: false})
         .pipe(clean());
 });
@@ -156,11 +175,12 @@ gulp.task("browserSync", function() {
 
 
 gulp.task ("watch", function(){
-    gulp.watch(paths.styles.watch, ["styles"]);
-    gulp.watch(paths.pug.watch, ["pug"]);
-    gulp.watch(paths.scripts.watch, ["scripts"]);
-    gulp.watch(paths.images.watch, ["images"]);
-    gulp.watch(paths.fonts.watch, ["fonts"]);
+    gulp.watch(paths.styles.watch, {cwd:'./'}, ["styles"]);
+    gulp.watch(paths.pug.watch, {cwd:'./'}, ["pug"]);
+    gulp.watch(paths.scripts.watch, {cwd:'./'}, ["scripts"]);
+    gulp.watch(paths.images.watch, {cwd:'./'},["images"]);
+    gulp.watch(paths.sprites.watch, {cwd:'./'}, ["sprites"]);
+    gulp.watch(paths.fonts.watch, {cwd:'./'}, ["fonts"]);
 });
 
-gulp.task("default", ["browserSync", "styles", "pug", "scripts", "scripts:vendor" ,"images", "fonts", "watch"]);
+gulp.task("default", ["browserSync", "styles", "pug", "scripts", "scripts:vendor" ,"sprites", "images", "fonts", "watch"]);

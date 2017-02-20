@@ -1,0 +1,16 @@
+.header{
+    border: 1px solid #dddddd;
+    &__wrap-contacts{
+        border-left: 1px solid #dddddd;
+    }
+    &__contacts{
+        padding-right: 10px;
+        text-align: right;
+        color: #303030;
+        font-size: 2.6rem;
+        font-weight: 400;
+    }
+    &__logo{
+        padding: 0;
+    }
+}

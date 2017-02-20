@@ -1,0 +1,23 @@
+.nav{
+    padding: 0;
+    &__menu{
+        border-top: 1px solid #dddddd;
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+    }
+    &__item{
+        display: inline-block;
+        padding: 0 1.7rem;
+        line-height: 4.7rem;
+        border-left: 1px solid #dddddd;
+        font-size: 1.7rem;
+        font-weight: 400;
+        &:first-child{
+            border-left:0;
+        }
+    }
+    &__link{
+        color: #303030;
+    }
+}
