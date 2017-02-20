@@ -91,7 +91,7 @@ gulp.task("scripts", function() {
 
 gulp.task("scripts:vendor", function() {
   return gulp.src([
-        "./bower_components/jQuery/dist/jquery.min.js"
+        "./bower_components/jquery/dist/jquery.min.js"
     ])
         .pipe(plumber())
         .pipe(concat('vendor.js'))
